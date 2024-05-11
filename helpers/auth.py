@@ -20,7 +20,7 @@ encoded_client_token = base64.b64encode(f"{client_id}:{client_secret}".encode('a
 customer_auth_code = get_customer_authorization_code(client_id, redirect_uri, customer_username, customer_password, scopes)
 token = get_customer_access_token(encoded_client_token, customer_auth_code, redirect_uri)
 
-def get_customer_authorization_code(client_id, redirect_uri, customer_username, customer_password, scopes):
+while True:
     AUTH_URL = f"https://api.kroger.com/v1/connect/oauth2/authorize?client_id={client_id}&response_type=code&redirect_uri={redirect_uri}&scope={scopes}"
     service = Service(executable_path="chromedriver.exe")
     chrome_options = Options()  
@@ -58,10 +58,9 @@ def get_customer_authorization_code(client_id, redirect_uri, customer_username, 
         pass
     time.sleep(2)
     uri = driver.current_url
-    return uri.split("code=")[1]
+    customer_auth_code = uri.split("code=")[1]
 
-def get_customer_access_token(encoded_client_token, customer_auth_code, redirect_uri):
-    url = 'https://api.kroger.com/v1/connect/oauth2/token'
+    token_url = 'https://api.kroger.com/v1/connect/oauth2/token'
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': f'Basic {encoded_client_token}',
@@ -71,5 +70,6 @@ def get_customer_access_token(encoded_client_token, customer_auth_code, redirect
         'code': customer_auth_code,
         'redirect_uri': redirect_uri,
     }
-    response = requests.post(url, headers=headers, data=payload)
-    return json.loads(response.text).get('access_token')
+    response = requests.post(token_url, headers=headers, data=payload)
+    token = json.loads(response.text).get('access_token')
+    time.sleep(30 * 60)
