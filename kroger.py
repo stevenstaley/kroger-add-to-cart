@@ -4,9 +4,8 @@ import base64
 import json
 
 from helpers.auth import get_customer_access_token, get_customer_authorization_code
-# encoded_client_token, customer_auth_code, client_id, client_secret, customer_password, customer_username
-
 from helpers.functions import add_items_to_cart
+
 client_id = os.environ.get('CLIENT_ID')
 client_secret = os.environ.get('CLIENT_SECRET')
 customer_username = os.environ.get('CUSTOMER_USERNAME')

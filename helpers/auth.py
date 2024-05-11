@@ -48,15 +48,6 @@ def get_customer_authorization_code(client_id, redirect_uri, customer_username, 
     uri = driver.current_url
     return uri.split("code=")[1]
 
-
-#     
-# params = {
-#     "scope": scopes,
-#     "client_id": client_id,
-#     "redirect_uri": redirect_uri,
-#     "response_type": "code"
-# }
-
 def get_customer_access_token(encoded_client_token, customer_auth_code, redirect_uri):
     url = 'https://api.kroger.com/v1/connect/oauth2/token'
     headers = {
@@ -70,7 +61,3 @@ def get_customer_access_token(encoded_client_token, customer_auth_code, redirect
     }
     response = requests.post(url, headers=headers, data=payload)
     return json.loads(response.text).get('access_token')
-
-
-
-    
