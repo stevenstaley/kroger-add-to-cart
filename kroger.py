@@ -3,10 +3,8 @@ import os
 import base64
 import json
 
-from helpers.auth import get_customer_access_token, get_customer_authorization_code
+from helpers.auth import token
 from helpers.functions import add_items_to_cart
-
-print(token)
 
 while True:
     print("Waiting for UPC")
