@@ -3,6 +3,7 @@ import json
 import time
 import base64
 import os
+import subprocess
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -17,23 +18,25 @@ customer_password = os.environ.get('CUSTOMER_PASSWORD')
 redirect_uri = os.environ.get('REDIRECT_URI')
 scopes = "cart.basic:write%20product.compact%20profile.compact"
 encoded_client_token = base64.b64encode(f"{client_id}:{client_secret}".encode('ascii')).decode('ascii')
+service = Service(executable_path=r"C:\Users\kelly\Downloads\Python\Kroger\helpers\chromedriver.exe")
+chrome_options = Options()  
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--disable-web-security")
+chrome_options.add_argument("--incognito")
+chrome_options.add_argument("--allow-running-insecure-content")
+chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+chrome_options.add_argument("--disable-popup-blocking")
+chrome_options.add_argument("--disable-notifications")
+chrome_options.add_argument("--disable-features=SameSiteByDefaultCookies")
+chrome_options.add_argument("start-maximized")
+chrome_options.add_experimental_option("prefs", {"profile.default_content_settings.cookies": 1, "profile.block_third_party_cookies": False})
+chrome_options.add_argument('log-level=3')
+driver = Chrome(service=service, options=chrome_options)
 
 while True:
     AUTH_URL = f"https://api.kroger.com/v1/connect/oauth2/authorize?client_id={client_id}&response_type=code&redirect_uri={redirect_uri}&scope={scopes}"
-    service = Service(executable_path="chromedriver.exe")
-    chrome_options = Options()  
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-web-security")
-    chrome_options.add_argument("--incognito")
-    chrome_options.add_argument("--allow-running-insecure-content")
-    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-    chrome_options.add_argument("--disable-popup-blocking")
-    chrome_options.add_argument("--disable-notifications")
-    chrome_options.add_argument("--disable-features=SameSiteByDefaultCookies")
-    chrome_options.add_argument("start-maximized")
-    chrome_options.add_experimental_option("prefs", {"profile.default_content_settings.cookies": 1, "profile.block_third_party_cookies": False})
-    chrome_options.add_argument('log-level=3')
-    driver = Chrome(service=service, options=chrome_options)
+    
+    
     url = AUTH_URL.format(client_id=client_id, redirect_uri=redirect_uri, scopes=scopes)
     # Go to the authorization url, enter username and password and submit
     driver.get(url)
@@ -58,16 +61,5 @@ while True:
     uri = driver.current_url
     customer_auth_code = uri.split("code=")[1]
 
-    token_url = 'https://api.kroger.com/v1/connect/oauth2/token'
-    headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': f'Basic {encoded_client_token}',
-    }
-    payload = {
-        'grant_type':"authorization_code",
-        'code': customer_auth_code,
-        'redirect_uri': redirect_uri,
-    }
-    response = requests.post(token_url, headers=headers, data=payload)
-    token = json.loads(response.text).get('access_token')
-    time.sleep(30 * 60)
+    subprocess.run(['setx', 'KROGER_CUST_AUTH_CODE', customer_auth_code], shell=True)
+    print(customer_auth_code)
