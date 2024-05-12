@@ -18,7 +18,7 @@ customer_password = os.environ.get('CUSTOMER_PASSWORD')
 redirect_uri = os.environ.get('REDIRECT_URI')
 scopes = "cart.basic:write%20product.compact%20profile.compact"
 encoded_client_token = base64.b64encode(f"{client_id}:{client_secret}".encode('ascii')).decode('ascii')
-service = Service(executable_path=r"C:\Users\kelly\Downloads\Python\Kroger\helpers\chromedriver.exe")
+service = Service(executable_path=r"PATH\TO\chromedriver.exe")
 chrome_options = Options()  
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-web-security")
