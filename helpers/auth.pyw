@@ -62,3 +62,4 @@ while True:
     customer_auth_code = uri.split("code=")[1]
 
     subprocess.run(['setx', 'KROGER_CUST_AUTH_CODE', customer_auth_code], shell=True)
+    time.sleep(30 * 60)
