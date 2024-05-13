@@ -1,37 +1,86 @@
-import time
-import os
+import requests
+import simple_cache
 import base64
 import json
-import requests
-from .helpers.functions import add_items_to_cart
+import pandas as pd
+import datetime
+from .helpers.functions import *
+# get_customer_access_token, encoded_client_token, redirect_uri, customer_username, customer_password, additme
 
-client_id = os.environ.get('CLIENT_ID')
-client_secret = os.environ.get('CLIENT_SECRET')
-customer_username = os.environ.get('CUSTOMER_USERNAME')
-customer_password = os.environ.get('CUSTOMER_PASSWORD')
-redirect_uri = os.environ.get('REDIRECT_URI')
-scopes = "cart.basic:write%20product.compact%20profile.compact"
-encoded_client_token = base64.b64encode(f"{client_id}:{client_secret}".encode('ascii')).decode('ascii')
-customer_auth_code = os.environ.get('KROGER_CUST_AUTH_CODE')
+current_time = datetime.datetime.now()
 
-token_url = 'https://api.kroger.com/v1/connect/oauth2/token'
-headers = {
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'Authorization': f'Basic {encoded_client_token}',
-}
-payload = {
-    'grant_type':"authorization_code",
-    'code': customer_auth_code,
-    'redirect_uri': redirect_uri,
-}
-response = requests.post(token_url, headers=headers, data=payload)
-token = json.loads(response.text).get('access_token')
+token, refresh_token = get_customer_access_token(encoded_client_token, redirect_uri, customer_username, customer_password)
 
 while True:
-    print("Waiting for UPC")
     upc = input()
     items = {
-        "upc": upc,
-        "quantity": 1              
+    "upc": upc,
+    "quantity": 1          
     }
-    add_items_to_cart(token, items)
+   
+    while True:
+        status = add_items_to_cart(token, items)
+       
+        if status == 401:
+            token, refresh_token = refresh_auth_token(refresh_token, encoded_client_token)
+            print(f"Refresh token expired at {current_time}")
+            status = add_items_to_cart(token, items)
+            product = get_product(upc, token)
+            description, size, imgurl = get_product_info(product)
+            message = f"{description} - {size} has been added to your cart"
+           
+            break
+           
+        elif status == 400:
+            print("Shit's fucked, maybe you left it blank")
+           
+            break
+           
+        elif status == 204:
+            product = get_product(upc, token)
+            description, size, imgurl = get_product_info(product)
+            message = f"{description} - {size} has been added to your cart"
+            print(f'{message}')
+            # inventory.append((description, size, imgurl, 1))
+            break
+           
+    # df = pd.DataFrame(inventory, columns=['Item', 'Size', 'Image', 'Quantity'])
+
+
+# In[61]:
+
+
+# df = pd.DataFrame(inventory, columns=['Item', 'Size', 'Image', 'Quantity'])
+
+
+# In[ ]:
+
+
+def send_pushover(message, img):
+    r = requests.post("https://api.pushover.net/1/messages.json", data = {
+      "token": "APP_TOKEN",
+      "user": "USER_KEY",
+      "message": message
+    },
+    files = {
+      "attachment": ("image.jpg", open(img, "rb"), "image/jpeg")
+    })
+
+
+# In[ ]:
+
+
+# from PIL import Image
+# import requests
+# from io import BytesIO
+
+# def image_get(imgurl):
+#     response = requests.get(imgurl)
+#     img = Image.open(BytesIO(response.content))
+#     return img
+
+
+# In[ ]:
+
+
+# img = image_get(imgurl)
