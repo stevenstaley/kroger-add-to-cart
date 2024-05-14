@@ -3,20 +3,12 @@ import json
 import os
 import base64
 import time
-# from selenium.webdriver import Chrome
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
-client_id = os.environ.get('CLIENT_ID')
-client_secret = os.environ.get('CLIENT_SECRET')
-customer_username = os.environ.get('CUSTOMER_USERNAME')
-customer_password = os.environ.get('CUSTOMER_PASSWORD')
-redirect_uri = os.environ.get('REDIRECT_URI')
-scopes = "cart.basic:write%20product.compact%20profile.compact"
-encoded_client_token = base64.b64encode(f"{client_id}:{client_secret}".encode('ascii')).decode('ascii')
 
 def add_items_to_cart(token, items):
     url = 'https://api.kroger.com/v1/cart/add'
