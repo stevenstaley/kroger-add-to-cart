@@ -1,4 +1,3 @@
-import requests
 import datetime
 import os
 import base64
