@@ -24,8 +24,12 @@ def add_items_to_cart(token, items):
     #submits a PUT request to add the item to the cart and returns the status code to determine if the operation was a success
     return response.status_code
 
+############################################################
+#              Add To Cart Function                        #
+############################################################
 def get_customer_authorization_code(client_id, redirect_uri, scopes, customer_username, customer_password):
-    service = Service(executable_path=r"C:\Users\kelly\Downloads\Python\Kroger\add-to-cartV1\chromedriver.exe")
+    # Uses Selenium to open the browser to the authentication URL, submits customer username and password to authorize, returns string after '{redirect_uri}/code='
+    service = Service(executable_path=r"C:\path\to\chromedriver.exe")
     chrome_options = Options()  
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-web-security")
