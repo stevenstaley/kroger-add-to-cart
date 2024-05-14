@@ -21,8 +21,8 @@ while True:
     print("Waiting for UPC")
     upc = input()
     items = {
-    "upc": upc,
-    "quantity": 1          
+        "upc": upc,
+        "quantity": 1          
     }
    
     while True:
