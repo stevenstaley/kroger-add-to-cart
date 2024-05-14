@@ -33,33 +33,31 @@ while True:
     "quantity": 1          
     }
    
-    # while True:
-    status = add_items_to_cart(token, items)
-    print(status)
-    
-       
-#         if status == 401:
-#             token, refresh_token = refresh_auth_token(refresh_token, encoded_client_token)
-#             print(f"Refresh token renewed at {current_time}")
-#             status = add_items_to_cart(token, items)
-#             product = get_product(upc, token)
-#             description, size, imgurl = get_product_info(product)
-#             message = f"{description} - {size} has been added to your cart"
+    while True:
+        status = add_items_to_cart(token, items)
+        
+        if status == 401:
+            token, refresh_token = refresh_auth_token(refresh_token, encoded_client_token)
+            print(f"Refresh token renewed at {current_time}")
+            status = add_items_to_cart(token, items)
+            product = get_product(upc, token)
+            description, size, imgurl = get_product_info(product)
+            message = f"{description} - {size} has been added to your cart"
            
-#             break
+            break
            
-#         elif status == 400:
-#             print("Shit's fucked, maybe you left it blank")
+        elif status == 400:
+            print("Shit's fucked, maybe you left it blank")
            
-#             break
+            break
            
-#         elif status == 204:
-#             product = get_product(upc, token)
-#             description, size, imgurl = get_product_info(product)
-#             message = f"{description} - {size} has been added to your cart"
-#             print(f'{message}')
-#             # inventory.append((description, size, imgurl, 1))
-#             break
+        elif status == 204:
+            product = get_product(upc, token)
+            description, size, imgurl = get_product_info(product)
+            message = f"{description} - {size} has been added to your cart"
+            print(f'{message}')
+            # inventory.append((description, size, imgurl, 1))
+            break
            
 # # #     # df = pd.DataFrame(inventory, columns=['Item', 'Size', 'Image', 'Quantity'])
 
