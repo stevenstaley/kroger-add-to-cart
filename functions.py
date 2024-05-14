@@ -87,6 +87,7 @@ def get_customer_access_token(customer_auth_code, encoded_client_token, redirect
     response = requests.post(url, headers=headers, data=auth_payload)
     token = json.loads(response.text).get('access_token')
     refresh_token = json.loads(response.text).get('refresh_token')
+    # Outputs the access token
     return token, refresh_token
 
 def get_product_info(product):
