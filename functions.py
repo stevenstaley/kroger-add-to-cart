@@ -8,7 +8,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 
+############################################################
+#              Add To Cart Function                        #
+############################################################
 def add_items_to_cart(token, items):
+    #token is the access token granted after the customer authorizaiton code gets posted to the token api.
     url = 'https://api.kroger.com/v1/cart/add'
     headers = {
         'Content-Type': 'application/json',
@@ -17,6 +21,7 @@ def add_items_to_cart(token, items):
     data = {'items': [items]}
 
     response = requests.put(url, headers=headers, data=json.dumps(data))
+    #submits a PUT request to add the item to the cart and returns the status code to determine if the operation was a success
     return response.status_code
 
 def get_customer_authorization_code(client_id, redirect_uri, scopes, customer_username, customer_password):
