@@ -1,7 +1,5 @@
 import requests
 import json
-import os
-import base64
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -121,13 +119,3 @@ def refresh_auth_token(refresh_token, encoded_client_token):
     token = json.loads(refresh_response.text).get('access_token')
     refresh_token = json.loads(refresh_response.text).get('refresh_token')
     return token, refresh_token
-
-
-# customer_auth_code = get_customer_authorization_code(client_id, redirect_uri, scopes, customer_username, customer_password)
-# token, refresh_token = get_customer_access_token(customer_auth_code, encoded_client_token, redirect_uri)
-
-
-# print(customer_auth_code)
-# print()
-# print(token)
-# print(refresh_token)
