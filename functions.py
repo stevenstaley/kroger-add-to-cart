@@ -69,7 +69,10 @@ def get_customer_authorization_code(client_id, redirect_uri, scopes, customer_us
     uri = driver.current_url
     # Returns string after '{redirect_uri}/code='
     return uri.split("code=")[1]
-
+    
+############################################################
+#            Get Customer Access and Refresh Token         #
+############################################################
 def get_customer_access_token(customer_auth_code, encoded_client_token, redirect_uri):
     url = 'https://api.kroger.com/v1/connect/oauth2/token'
     headers = {
