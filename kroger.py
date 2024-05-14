@@ -12,17 +12,9 @@ redirect_uri = os.environ.get('REDIRECT_URI')
 scopes = "cart.basic:write%20product.compact%20profile.compact"
 encoded_client_token = base64.b64encode(f"{client_id}:{client_secret}".encode('ascii')).decode('ascii')
 
-url = f'https://api.kroger.com/v1/connect/oauth2/authorize?client_id={client_id}&response_type=code&redirect_uri={redirect_uri}&scope={scopes}'
-print(url)
 current_time = datetime.datetime.now()
 customer_auth_code = get_customer_authorization_code(client_id, redirect_uri, scopes, customer_username, customer_password)
 token, refresh_token = token, refresh_token = get_customer_access_token(customer_auth_code, encoded_client_token, redirect_uri)
-
-print(token)
-print('-------------')
-print(refresh_token)
-
-
 
 while True:
    
