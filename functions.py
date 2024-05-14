@@ -25,10 +25,10 @@ def add_items_to_cart(token, items):
     return response.status_code
 
 ############################################################
-#              Add To Cart Function                        #
+#    Get Customer Authorization Code For Specific Cart     #
 ############################################################
 def get_customer_authorization_code(client_id, redirect_uri, scopes, customer_username, customer_password):
-    # Uses Selenium to open the browser to the authentication URL, submits customer username and password to authorize, returns string after '{redirect_uri}/code='
+    # Uses Selenium to open the browser to the authentication URL 
     service = Service(executable_path=r"C:\path\to\chromedriver.exe")
     chrome_options = Options()  
     chrome_options.add_argument("--headless")
@@ -58,7 +58,7 @@ def get_customer_authorization_code(client_id, redirect_uri, scopes, customer_us
     button = driver.find_element(By.ID, 'signin_button')
     time.sleep(1)
     button.click()
-
+    # If that specific customer has already authorized, it will skip this try loop
     try:
         auth_button = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID, "authorize")))
         if auth_button:
@@ -67,6 +67,7 @@ def get_customer_authorization_code(client_id, redirect_uri, scopes, customer_us
         pass
     time.sleep(2)
     uri = driver.current_url
+    # Returns string after '{redirect_uri}/code='
     return uri.split("code=")[1]
 
 def get_customer_access_token(customer_auth_code, encoded_client_token, redirect_uri):
