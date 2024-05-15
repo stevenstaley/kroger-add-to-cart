@@ -136,7 +136,11 @@ def get_product(upc, token):
     # Returns the JSON for the product information which is broken out by the get_product_info function
     return json
 
+############################################################
+#               Get Product Function                       #
+############################################################
 def refresh_auth_token(refresh_token, encoded_client_token):
+    # Takes the refresh token and does a POST request to obtain a new 30 minute access token
     url = 'https://api.kroger.com/v1/connect/oauth2/token'
     refresh_payload = {
     'grant_type':"refresh_token",
