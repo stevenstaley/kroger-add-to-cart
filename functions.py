@@ -12,7 +12,7 @@ from selenium.webdriver.chrome.service import Service
 #              Add To Cart Function                        #
 ############################################################
 def add_items_to_cart(token, items):
-    #token is the access token granted after the customer authorizaiton code gets posted to the token api.
+    # Conducts a PUT request using the 30 minute access token and the item information
     url = 'https://api.kroger.com/v1/cart/add'
     headers = {
         'Content-Type': 'application/json',
