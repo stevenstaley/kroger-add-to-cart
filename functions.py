@@ -97,12 +97,19 @@ def get_customer_access_token(customer_auth_code, encoded_client_token, redirect
 #               Get Product Information                    #
 ############################################################
 def get_product_info(product):
+    # product is the json returning from the get product function
+    # Isolates the data key
     newest = product['data']
+    # Accesses the item key
     item = newest['items']
+    # Declares the product description
     description = newest['description']
+    # Declares the product size
     size = item[0]['size']
+    # Locates the images asssociated with the product
     images = newest['images']
     imgurl = ""
+    # Locates the url for the 'large' size image of the product.
     for p in images:
         if p['perspective'] == "front":
             sizes = p['sizes']
@@ -111,7 +118,11 @@ def get_product_info(product):
                     imgurl = i['url']
     return description, size, imgurl
 
+############################################################
+#               Get Product Function                       #
+############################################################
 def get_product(upc, token):
+    # Takes the upc of the scanned product and the access token in order to run the GET request
     search = {
         "productId": upc,
         "upc": upc
@@ -122,7 +133,7 @@ def get_product(upc, token):
     }
     product = requests.get(f"https://api.kroger.com/v1/products/{upc}", headers=headers, data=search)
     json = product.json()
-
+    # Returns the JSON for the product information which is broken out by the get_product_info function
     return json
 
 def refresh_auth_token(refresh_token, encoded_client_token):
