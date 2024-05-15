@@ -87,9 +87,15 @@ def get_customer_access_token(customer_auth_code, encoded_client_token, redirect
     response = requests.post(url, headers=headers, data=auth_payload)
     token = json.loads(response.text).get('access_token')
     refresh_token = json.loads(response.text).get('refresh_token')
-    # Outputs the access token
-    return token, refresh_token
+    # Outputs the access token and refresh token
+    # The access token is only good for 1800 seconds (30 minutes)
+    # The refresh token is good for 6 months. When the access token expires, the refresh token is used to obtain a new 30 minute access token.
+    return t
+    token, refresh_token
 
+############################################################
+#               Get Product Information                    #
+############################################################
 def get_product_info(product):
     newest = product['data']
     item = newest['items']
