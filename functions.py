@@ -19,7 +19,6 @@ def add_items_to_cart(token, items):
         'Authorization': f'Bearer {token}',
     }
     data = {'items': [items]}
-
     response = requests.put(url, headers=headers, data=json.dumps(data))
     #submits a PUT request to add the item to the cart and returns the status code to determine if the operation was a success
     return response.status_code
@@ -48,15 +47,21 @@ def get_customer_authorization_code(client_id, redirect_uri, scopes, customer_us
     url = AUTH_URL.format(client_id=client_id, redirect_uri=redirect_uri, scopes=scopes)
     # Go to the authorization url, enter username and password and submit
     driver.get(url)
-    time.sleep(2)
+    time.sleep(1)
+    # Find the username input
     username = driver.find_element(By.ID, 'username')
+    # Inputs customer username
     username.send_keys(customer_username)
     time.sleep(1)
+    # Finds the password input
     password = driver.find_element(By.ID, 'password')
+    # Inputs customer password
     password.send_keys(customer_password)
     time.sleep(1)
+    # Finds the sign in button
     button = driver.find_element(By.ID, 'signin_button')
     time.sleep(1)
+    # Submits the authorization with the username and password
     button.click()
     # If that specific customer has already authorized, it will skip this try loop
     try:
