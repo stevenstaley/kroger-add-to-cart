@@ -110,9 +110,9 @@ while True:
                 
 #             else:
 #                 product = get_product(upc, token)
-#                 print(product)
 #                 description, size, imgurl = get_product_info(product)
 #                 message = f"{description} - {size} has been added to your cart @ {imgurl}"
+#                 print(message)
             
 #             break
             
