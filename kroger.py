@@ -67,3 +67,65 @@ while True:
             message = f"{description} - {size} has been added to your cart"
             print(f'{message}')
             break
+
+
+
+# Potentially good loop to replace the original one 
+
+
+# while True:
+#     upc = input()
+#     items = {
+#     "upc": upc,
+#     "quantity": 1           
+#     }
+    
+#     while True:
+#         status = add_items_to_cart(token, items)
+        
+#         if status == 401:
+#             token, refresh_token = refresh_auth_token(refresh_token, encoded_client_token)
+#             print(f"Refresh token expired at {current_time}")
+#             status = add_items_to_cart(token, items)
+#             if status == 401:
+#                 print("Getting customer access token, please wait.....")
+#                 customer_auth_code = get_customer_authorization_code(client_id, redirect_uri, scopes, customer_username, customer_password)
+#                 print("Customer Authorization Code acquired.")
+#                 token, refresh_token = get_customer_access_token(customer_auth_code, encoded_client_token, redirect_uri)
+#                 print("Token acquired.")
+#                 status = add_items_to_cart(token, items)
+#                 if status == 201:
+#                     product = get_product(upc, token)
+#                     description, size, imgurl = get_product_info(product)
+#                     message = f"{description} - {size} has been added to your cart @ {imgurl}"
+#                     print(message)
+                    
+#                     break
+                    
+#                 else:
+#                     print(status)
+#                     print("Please check your credentials.")
+                    
+#                 break
+                
+#             else:
+#                 product = get_product(upc, token)
+#                 print(product)
+#                 description, size, imgurl = get_product_info(product)
+#                 message = f"{description} - {size} has been added to your cart @ {imgurl}"
+            
+#             break
+            
+#         elif status == 400:
+#             print("Shit's fucked, maybe you left it blank")
+            
+#             break
+            
+#         elif status == 204:
+#             product = get_product(upc, token)
+#             print(product)
+#             description, size, imgurl = get_product_info(product)
+#             message = f"{description} - {size} has been added to your cart @ {imgurl}"
+#             print(f'{message}')
+#             # inventory.append((description, size, imgurl, 1))
+#             break
