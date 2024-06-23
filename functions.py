@@ -13,7 +13,7 @@ from selenium.webdriver.chrome.service import Service
 ############################################################
 def get_customer_authorization_code(client_id, redirect_uri, scopes, customer_username, customer_password):
     # Uses Selenium to open the browser to the authentication URL 
-    service = Service(executable_path=r"C:\path\to\chromedriver.exe")
+    service = Service(executable_path=r"C:\Users\kelly\Downloads\Python\Kroger\kroger-add-to-cart\chromedriver.exe")
     chrome_options = Options()  
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-web-security")
