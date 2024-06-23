@@ -64,9 +64,9 @@ while True:
             # Success
             try:
                 product = get_product(upc, token)
-                description, size, imgurl = get_product_info(product)
             except ConnectionError as e:
                 print("Limit reached")
+            description, size, imgurl = get_product_info(product)
             message = f"{description} - {size} has been added to your cart"
             print(f'{message}')
             break
