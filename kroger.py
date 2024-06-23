@@ -1,6 +1,8 @@
 import datetime
 import os
 import base64
+from urllib3.exceptions import ProtocolError
+from http.client import RemoteDisconnected
 from functions import get_product, add_items_to_cart, refresh_auth_token, get_product_info, get_customer_access_token, get_customer_authorization_code
 
 # Stores the "Client ID", "Client Secret", "Customer Username", "Customer Password", and "Redirect URI" as environmental variables for obscurity
@@ -64,6 +66,10 @@ while True:
             # Success
             try:
                 product = get_product(upc, token)
+            except RemoteDisconnected as r:
+                print("Try again Remote")
+            except ProtocolError as p:
+                print("Try again Protocol")
             except ConnectionError as e:
                 print("Limit reached")
             description, size, imgurl = get_product_info(product)
