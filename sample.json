@@ -1,0 +1,110 @@
+{
+    "data": {
+        "productId": "0001111011968",
+        "upc": "0001111011968",
+        "productPageURI": "/p/kroger-tomato-paste/0001111011968?cid=dis.api.tpi_products-api_20240521_b:all_c:p_t:cloud-api-new-83f6f0",
+        "aisleLocations": [],
+        "brand": "Kroger",
+        "categories": [
+            "Canned & Packaged"
+        ],
+        "countryOrigin": "UNITED STATES",
+        "description": "Kroger\u00ae Tomato Paste",
+        "images": [
+            {
+                "perspective": "left",
+                "sizes": [
+                    {
+                        "size": "xlarge",
+                        "url": "https://www.kroger.com/product/images/xlarge/left/0001111011968"
+                    },
+                    {
+                        "size": "large",
+                        "url": "https://www.kroger.com/product/images/large/left/0001111011968"
+                    },
+                    {
+                        "size": "medium",
+                        "url": "https://www.kroger.com/product/images/medium/left/0001111011968"
+                    },
+                    {
+                        "size": "small",
+                        "url": "https://www.kroger.com/product/images/small/left/0001111011968"
+                    },
+                    {
+                        "size": "thumbnail",
+                        "url": "https://www.kroger.com/product/images/thumbnail/left/0001111011968"
+                    }
+                ]
+            },
+            {
+                "perspective": "right",
+                "sizes": [
+                    {
+                        "size": "xlarge",
+                        "url": "https://www.kroger.com/product/images/xlarge/right/0001111011968"
+                    },
+                    {
+                        "size": "large",
+                        "url": "https://www.kroger.com/product/images/large/right/0001111011968"
+                    },
+                    {
+                        "size": "medium",
+                        "url": "https://www.kroger.com/product/images/medium/right/0001111011968"
+                    },
+                    {
+                        "size": "small",
+                        "url": "https://www.kroger.com/product/images/small/right/0001111011968"
+                    },
+                    {
+                        "size": "thumbnail",
+                        "url": "https://www.kroger.com/product/images/thumbnail/right/0001111011968"
+                    }
+                ]
+            },
+            {
+                "perspective": "front",
+                "featured": true,
+                "sizes": [
+                    {
+                        "size": "xlarge",
+                        "url": "https://www.kroger.com/product/images/xlarge/front/0001111011968"
+                    },
+                    {
+                        "size": "large",
+                        "url": "https://www.kroger.com/product/images/large/front/0001111011968"
+                    },
+                    {
+                        "size": "medium",
+                        "url": "https://www.kroger.com/product/images/medium/front/0001111011968"
+                    },
+                    {
+                        "size": "small",
+                        "url": "https://www.kroger.com/product/images/small/front/0001111011968"
+                    },
+                    {
+                        "size": "thumbnail",
+                        "url": "https://www.kroger.com/product/images/thumbnail/front/0001111011968"
+                    }
+                ]
+            }
+        ],
+        "items": [
+            {
+                "itemId": "0001111011968",
+                "favorite": false,
+                "fulfillment": {
+                    "curbside": false,
+                    "delivery": false,
+                    "inStore": false,
+                    "shipToHome": false
+                },
+                "size": "12 oz"
+            }
+        ],
+        "itemInformation": {},
+        "temperature": {
+            "indicator": "Ambient",
+            "heatSensitive": false
+        }
+    }
+}
