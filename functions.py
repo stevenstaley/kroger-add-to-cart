@@ -28,7 +28,9 @@ def get_customer_authorization_code(client_id, redirect_uri, scopes, customer_us
     chrome_options.add_argument('log-level=3')
     driver = webdriver.Chrome(service=service, options=chrome_options)
     AUTH_URL = f"https://api.kroger.com/v1/connect/oauth2/authorize?client_id={client_id}&response_type=code&redirect_uri={redirect_uri}&scope={scopes}"
+    # print(AUTH_URL)
     url = AUTH_URL.format(client_id=client_id, redirect_uri=redirect_uri, scopes=scopes)
+    # print(url)
     # Go to the authorization url, enter username and password and submit
     driver.get(url)
     time.sleep(1)
@@ -128,7 +130,7 @@ def get_product(upc, token):
         'Content-Type': 'application/json',
         'Authorization': f'Bearer {token}',
     }
-    product = requests.get(f"https://api.kroger.com/v1/products/{upc}", headers=headers, data=search)
+    product = requests.get(f"https://api.kroger.com/v1/products/{upc}", headers=headers, params=search)
     json = product.json()
     # Returns the JSON for the product information which is broken out by the get_product_info function
     return json
@@ -140,12 +142,14 @@ def get_product_info(product):
     # product is the json returning from the get product function
     # Isolates the data key
     newest = product['data']
-    # Accesses the item key
-    item = newest['items']
     # Declares the product description
+    
     description = newest['description']
+    brand = newest['brand']
+    category = newest['categories']
+    productId = newest['productId']
     # Declares the product size
-    size = item[0]['size']
+    size = newest['items'][0]['size']
     # Locates the images asssociated with the product
     images = newest['images']
     imgurl = ""
@@ -156,7 +160,7 @@ def get_product_info(product):
             for i in sizes:
                 if i['size'] == "large":
                     imgurl = i['url']
-    return description, size, imgurl
+    return description, size, imgurl, brand, category, productId
 
 
 # product = {'data': {'productId': '0001111091484', 'upc': '0001111091484', 'aisleLocations': [], 'brand': 'Kroger', 'categories': ['Produce'], 'countryOrigin': 'UNITED STATES', 'description': 'Kroger® Vegetable Snack Tray with Ranch Dip', 'images': [{'perspective': 'back', 'sizes': [{'size': 'xlarge', 'url': 'https://www.kroger.com/product/images/xlarge/back/0001111091484'}, {'size': 'large', 'url': 'https://www.kroger.com/product/images/large/back/0001111091484'}, {'size': 'medium', 'url': 'https://www.kroger.com/product/images/medium/back/0001111091484'}, {'size': 'small', 'url': 'https://www.kroger.com/product/images/small/back/0001111091484'}, {'size': 'thumbnail', 'url': 'https://www.kroger.com/product/images/thumbnail/back/0001111091484'}]}, {'perspective': 'front', 'featured': True, 'sizes': [{'size': 'xlarge', 'url': 'https://www.kroger.com/product/images/xlarge/front/0001111091484'}, {'size': 'large', 'url': 'https://www.kroger.com/product/images/large/front/0001111091484'}, {'size': 'medium', 'url': 'https://www.kroger.com/product/images/medium/front/0001111091484'}, {'size': 'small', 'url': 'https://www.kroger.com/product/images/small/front/0001111091484'}, {'size': 'thumbnail', 'url': 'https://www.kroger.com/product/images/thumbnail/front/0001111091484'}]}], 'items': [{'itemId': '0001111091484', 'favorite': False, 'fulfillment': {'curbside': False, 'delivery': False, 'inStore': False, 'shipToHome': False}, 'size': '6 oz'}], 'itemInformation': {}, 'temperature': {'indicator': 'Refrigerated', 'heatSensitive': False}}}
