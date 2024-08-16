@@ -119,13 +119,14 @@ def get_product(upc, token):
     # Takes the upc of the scanned product and the access token in order to run the GET request
     search = {
         "productId": upc,
-        "upc": upc
+        "upc": upc,
+        "filter.locationId": "01100644"
     }
     headers = {
         'Content-Type': 'application/json',
         'Authorization': f'Bearer {token}',
     }
-    product = requests.get(f"https://api.kroger.com/v1/products/{upc}&filter.locationId=01100644", headers=headers, params=search)
+    product = requests.get(f"https://api.kroger.com/v1/products/{upc}", headers=headers, params=search)
     json = product.json()
     # Returns the JSON for the product information which is broken out by the get_product_info function
     return json

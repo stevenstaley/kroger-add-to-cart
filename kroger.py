@@ -69,6 +69,7 @@ while True:
             # Success
             try:
                 product = get_product(upc, token)
+                print(product)
                 description, size, imgurl, brand, category, productId = get_product_info(product)
                 message = f"{description}, {size}, {brand}, {category}, {productId}" + " has been added to your cart"
                 print(f'{message}')
