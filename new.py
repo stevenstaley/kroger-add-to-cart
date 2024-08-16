@@ -5,8 +5,8 @@ from functions import get_product, add_items_to_cart, refresh_auth_token, get_pr
 
 # Stores the "Client ID", "Client Secret", "Customer Username", "Customer Password", and "Redirect URI" as environmental variables for obscurity
 # client_id = os.environ.get('cloud-api-new-83f6f015f2a66f9c328f8eefe6f5abfe5066498447986739229')
-client_id = 'cloud-api-new-83f6f015f2a66f9c328f8eefe6f5abfe5066498447986739229'
-client_secret = '1HF1vXQlZa0uyw73PlC-6-ZAlIKoRhZUpLdfPfrX'
+client_id = ''
+client_secret = ''
 customer_username = os.environ.get('CUSTOMER_USERNAME')
 customer_password = os.environ.get('CUSTOMER_PASSWORD')
 redirect_uri = os.environ.get('REDIRECT_URI')
