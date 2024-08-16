@@ -147,7 +147,7 @@ def get_product_info(product):
     except:
         brand = "No Brand Found"
     try:
-        category = newest['categories']
+        category = newest['categories'][0]
     except:
         category = "No Category Found"
     try:

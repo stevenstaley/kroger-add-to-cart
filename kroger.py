@@ -6,8 +6,7 @@ from http.client import RemoteDisconnected
 from functions import get_product, add_items_to_cart, refresh_auth_token, get_product_info, get_customer_access_token, get_customer_authorization_code
 
 # Stores the "Client ID", "Client Secret", "Customer Username", "Customer Password", and "Redirect URI" as environmental variables for obscurity
-client_id = 'cloud-api-new-83f6f015f2a66f9c328f8eefe6f5abfe5066498447986739229'
-client_secret = '1HF1vXQlZa0uyw73PlC-6-ZAlIKoRhZUpLdfPfrX'
+
 # client_id = os.environ.get('CLIENT_ID')
 # client_secret = os.environ.get('CLIENT_SECRET')
 customer_username = os.environ.get('CUSTOMER_USERNAME')
