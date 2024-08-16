@@ -6,8 +6,10 @@ from http.client import RemoteDisconnected
 from functions import get_product, add_items_to_cart, refresh_auth_token, get_product_info, get_customer_access_token, get_customer_authorization_code
 
 # Stores the "Client ID", "Client Secret", "Customer Username", "Customer Password", and "Redirect URI" as environmental variables for obscurity
-client_id = os.environ.get('CLIENT_ID')
-client_secret = os.environ.get('CLIENT_SECRET')
+client_id = 'cloud-api-new-83f6f015f2a66f9c328f8eefe6f5abfe5066498447986739229'
+client_secret = '1HF1vXQlZa0uyw73PlC-6-ZAlIKoRhZUpLdfPfrX'
+# client_id = os.environ.get('CLIENT_ID')
+# client_secret = os.environ.get('CLIENT_SECRET')
 customer_username = os.environ.get('CUSTOMER_USERNAME')
 customer_password = os.environ.get('CUSTOMER_PASSWORD')
 redirect_uri = os.environ.get('REDIRECT_URI')
@@ -49,9 +51,9 @@ while True:
             # Returns the product JSON
             product = get_product(upc, token)
             # Obtains the description, size, and image URL of the product
-            description, size, imgurl = get_product_info(product)
+            description, size, imgurl, brand, category, productId = get_product_info(product)
             # Standard message for adding something to the cart
-            message = f"{description} - {size} has been added to your cart"
+            message = f"{description}, {size}, {brand}, {category}, {productId}" + " has been added to your cart"
             print(message)
            
             break
@@ -66,15 +68,11 @@ while True:
             # Success
             try:
                 product = get_product(upc, token)
-            except RemoteDisconnected as r:
-                print("Try again Remote")
-            except ProtocolError as p:
-                print("Try again Protocol")
-            except ConnectionError as e:
-                print("Limit reached")
-            description, size, imgurl = get_product_info(product)
-            message = f"{description} - {size} has been added to your cart"
-            print(f'{message}')
+                description, size, imgurl, brand, category, productId = get_product_info(product)
+                message = f"{description}, {size}, {brand}, {category}, {productId}" + " has been added to your cart"
+                print(f'{message}')
+            except:
+                print("Try again")
             break
 
 

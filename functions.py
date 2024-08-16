@@ -8,62 +8,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 
-############################################################
-#    Get Customer Authorization Code For Specific Cart     #
-############################################################
-def get_customer_authorization_code(client_id, redirect_uri, scopes, customer_username, customer_password):
-    # Uses Selenium to open the browser to the authentication URL 
-    service = Service(executable_path=r"C:\Users\kelly\Downloads\Python\Kroger\kroger-add-to-cart\chromedriver.exe")
-    chrome_options = Options()  
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-web-security")
-    chrome_options.add_argument("--incognito")
-    chrome_options.add_argument("--allow-running-insecure-content")
-    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-    chrome_options.add_argument("--disable-popup-blocking")
-    chrome_options.add_argument("--disable-notifications")
-    chrome_options.add_argument("--disable-features=SameSiteByDefaultCookies")
-    chrome_options.add_argument("start-maximized")
-    chrome_options.add_experimental_option("prefs", {"profile.default_content_settings.cookies": 1, "profile.block_third_party_cookies": False})
-    chrome_options.add_argument('log-level=3')
-    driver = webdriver.Chrome(service=service, options=chrome_options)
-    AUTH_URL = f"https://api.kroger.com/v1/connect/oauth2/authorize?client_id={client_id}&response_type=code&redirect_uri={redirect_uri}&scope={scopes}"
-    # print(AUTH_URL)
-    url = AUTH_URL.format(client_id=client_id, redirect_uri=redirect_uri, scopes=scopes)
-    # print(url)
-    # Go to the authorization url, enter username and password and submit
-    driver.get(url)
-    time.sleep(1)
-    # Find the username input
-    username = driver.find_element(By.ID, 'username')
-    # Inputs customer username
-    username.send_keys(customer_username)
-    time.sleep(1)
-    # Finds the password input
-    password = driver.find_element(By.ID, 'password')
-    # Inputs customer password
-    password.send_keys(customer_password)
-    time.sleep(1)
-    # Finds the sign in button
-    button = driver.find_element(By.ID, 'signin_button')
-    time.sleep(1)
-    # Submits the authorization with the username and password
-    button.click()
-    # If that specific customer has already authorized, it will skip this try loop
-    try:
-        auth_button = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID, "authorize")))
-        if auth_button:
-            auth_button.click()
-    except:
-        pass
-    time.sleep(2)
-    uri = driver.current_url
-    # Returns string after '{redirect_uri}/code=' which is the customer_auth_code required to get an access token
-    return uri.split("code=")[1]
-    
-############################################################
-#            Get Customer Access and Refresh Token         #
-############################################################
 def get_customer_access_token(customer_auth_code, encoded_client_token, redirect_uri):
     url = 'https://api.kroger.com/v1/connect/oauth2/token'
     headers = {
@@ -143,24 +87,38 @@ def get_product_info(product):
     # Isolates the data key
     newest = product['data']
     # Declares the product description
-    
-    description = newest['description']
-    brand = newest['brand']
-    category = newest['categories']
-    productId = newest['productId']
+    try:
+        description = newest['description']
+    except:
+        description = "No Description Found"
+    try:
+        brand = newest['brand']
+    except:
+        brand = "No Brand Found"
+    try:
+        category = newest['categories']
+    except:
+        category = "No Category Found"
+    try:
+        productId = newest['productId']
+    except:
+        productId = "No UPC Found"
     # Declares the product size
-    size = newest['items'][0]['size']
+    try:
+        size = newest['items'][0]['size']
+    except:
+        size = "No Size Found"
     # Locates the images asssociated with the product
-    images = newest['images']
-    imgurl = ""
-    # Locates the url for the 'large' size image of the product.
-    for p in images:
-        if p['perspective'] == "front":
-            sizes = p['sizes']
-            for i in sizes:
-                if i['size'] == "large":
-                    imgurl = i['url']
+    try:
+        images = newest['images']
+        imgurl = ""
+        # Locates the url for the 'large' size image of the product.
+        for p in images:
+            if p['perspective'] == "front":
+                sizes = p['sizes']
+                for i in sizes:
+                    if i['size'] == "large":
+                        imgurl = i['url']
+    except:
+        images = 'No images found'
     return description, size, imgurl, brand, category, productId
-
-
-# product = {'data': {'productId': '0001111091484', 'upc': '0001111091484', 'aisleLocations': [], 'brand': 'Kroger', 'categories': ['Produce'], 'countryOrigin': 'UNITED STATES', 'description': 'Kroger® Vegetable Snack Tray with Ranch Dip', 'images': [{'perspective': 'back', 'sizes': [{'size': 'xlarge', 'url': 'https://www.kroger.com/product/images/xlarge/back/0001111091484'}, {'size': 'large', 'url': 'https://www.kroger.com/product/images/large/back/0001111091484'}, {'size': 'medium', 'url': 'https://www.kroger.com/product/images/medium/back/0001111091484'}, {'size': 'small', 'url': 'https://www.kroger.com/product/images/small/back/0001111091484'}, {'size': 'thumbnail', 'url': 'https://www.kroger.com/product/images/thumbnail/back/0001111091484'}]}, {'perspective': 'front', 'featured': True, 'sizes': [{'size': 'xlarge', 'url': 'https://www.kroger.com/product/images/xlarge/front/0001111091484'}, {'size': 'large', 'url': 'https://www.kroger.com/product/images/large/front/0001111091484'}, {'size': 'medium', 'url': 'https://www.kroger.com/product/images/medium/front/0001111091484'}, {'size': 'small', 'url': 'https://www.kroger.com/product/images/small/front/0001111091484'}, {'size': 'thumbnail', 'url': 'https://www.kroger.com/product/images/thumbnail/front/0001111091484'}]}], 'items': [{'itemId': '0001111091484', 'favorite': False, 'fulfillment': {'curbside': False, 'delivery': False, 'inStore': False, 'shipToHome': False}, 'size': '6 oz'}], 'itemInformation': {}, 'temperature': {'indicator': 'Refrigerated', 'heatSensitive': False}}}
