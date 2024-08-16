@@ -8,6 +8,57 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 
+############################################################
+#    Get Customer Authorization Code For Specific Cart     #
+############################################################
+def get_customer_authorization_code(client_id, redirect_uri, scopes, customer_username, customer_password):
+    # Uses Selenium to open the browser to the authentication URL 
+    service = Service(executable_path=r"C:\Users\kelly\Downloads\Python\Kroger\kroger-add-to-cart\chromedriver.exe")
+    chrome_options = Options()  
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-web-security")
+    chrome_options.add_argument("--incognito")
+    chrome_options.add_argument("--allow-running-insecure-content")
+    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+    chrome_options.add_argument("--disable-popup-blocking")
+    chrome_options.add_argument("--disable-notifications")
+    chrome_options.add_argument("--disable-features=SameSiteByDefaultCookies")
+    chrome_options.add_argument("start-maximized")
+    chrome_options.add_experimental_option("prefs", {"profile.default_content_settings.cookies": 1, "profile.block_third_party_cookies": False})
+    chrome_options.add_argument('log-level=3')
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+    AUTH_URL = f"https://api.kroger.com/v1/connect/oauth2/authorize?client_id={client_id}&response_type=code&redirect_uri={redirect_uri}&scope={scopes}"
+    url = AUTH_URL.format(client_id=client_id, redirect_uri=redirect_uri, scopes=scopes)
+    # Go to the authorization url, enter username and password and submit
+    driver.get(url)
+    time.sleep(1)
+    # Find the username input
+    username = driver.find_element(By.ID, 'username')
+    # Inputs customer username
+    username.send_keys(customer_username)
+    time.sleep(1)
+    # Finds the password input
+    password = driver.find_element(By.ID, 'password')
+    # Inputs customer password
+    password.send_keys(customer_password)
+    time.sleep(1)
+    # Finds the sign in button
+    button = driver.find_element(By.ID, 'signin_button')
+    time.sleep(1)
+    # Submits the authorization with the username and password
+    button.click()
+    # If that specific customer has already authorized, it will skip this try loop
+    try:
+        auth_button = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID, "authorize")))
+        if auth_button:
+            auth_button.click()
+    except:
+        pass
+    time.sleep(2)
+    uri = driver.current_url
+    # Returns string after '{redirect_uri}/code=' which is the customer_auth_code required to get an access token
+    return uri.split("code=")[1]
+
 def get_customer_access_token(customer_auth_code, encoded_client_token, redirect_uri):
     url = 'https://api.kroger.com/v1/connect/oauth2/token'
     headers = {
