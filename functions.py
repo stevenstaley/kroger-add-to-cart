@@ -125,7 +125,7 @@ def get_product(upc, token):
         'Content-Type': 'application/json',
         'Authorization': f'Bearer {token}',
     }
-    product = requests.get(f"https://api.kroger.com/v1/products/{upc}", headers=headers, params=search)
+    product = requests.get(f"https://api.kroger.com/v1/products/{upc}&filter.locationId=01100644", headers=headers, params=search)
     json = product.json()
     # Returns the JSON for the product information which is broken out by the get_product_info function
     return json
@@ -173,3 +173,19 @@ def get_product_info(product):
     except:
         images = 'No images found'
     return description, size, imgurl, brand, category, productId
+
+
+# def get_location(token):
+#     # Takes the upc of the scanned product and the access token in order to run the GET request
+#     headers = {
+#         'Content-Type': 'application/json',
+#         'Authorization': f'Bearer {token}',
+#     }
+#     product = requests.get(f"https://api.kroger.com/v1/locations?filter.zipCode.near=30813", headers=headers)
+#     json = product.json()
+#     # Returns the JSON for the product information which is broken out by the get_product_info function
+#     return json
+
+# data = get_location(token)
+
+# print(data)

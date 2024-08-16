@@ -1,14 +1,13 @@
 import datetime
 import os
 import base64
-from urllib3.exceptions import ProtocolError
-from http.client import RemoteDisconnected
+import requests
 from functions import get_product, add_items_to_cart, refresh_auth_token, get_product_info, get_customer_access_token, get_customer_authorization_code
 
 # Stores the "Client ID", "Client Secret", "Customer Username", "Customer Password", and "Redirect URI" as environmental variables for obscurity
 
-# client_id = os.environ.get('CLIENT_ID')
-# client_secret = os.environ.get('CLIENT_SECRET')
+client_id = os.environ.get('CLIENT_ID')
+client_secret = os.environ.get('CLIENT_SECRET')
 customer_username = os.environ.get('CUSTOMER_USERNAME')
 customer_password = os.environ.get('CUSTOMER_PASSWORD')
 redirect_uri = os.environ.get('REDIRECT_URI')
@@ -21,6 +20,8 @@ current_time = datetime.datetime.now()
 # Declares the initial set of tokens and auth code. 
 customer_auth_code = get_customer_authorization_code(client_id, redirect_uri, scopes, customer_username, customer_password)
 token, refresh_token = get_customer_access_token(customer_auth_code, encoded_client_token, redirect_uri)
+
+
 
 while True:
     # Waits for user input from the UPC scanner
@@ -49,6 +50,7 @@ while True:
             status = add_items_to_cart(token, items)
             # Returns the product JSON
             product = get_product(upc, token)
+            print(product)
             # Obtains the description, size, and image URL of the product
             description, size, imgurl, brand, category, productId = get_product_info(product)
             # Standard message for adding something to the cart
