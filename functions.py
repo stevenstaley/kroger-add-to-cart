@@ -1,12 +1,15 @@
 import requests
 import json
 import time
+import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
+import sqlite3
+current_time = datetime.datetime.now()
 
 ############################################################
 #    Get Customer Authorization Code For Specific Cart     #
@@ -178,7 +181,7 @@ def get_product_info(product):
             if p['perspective'] == "front":
                 sizes = p['sizes']
                 for i in sizes:
-                    if i['size'] == "large":
+                    if i['size'] == "thumbnail":
                         imgurl = i['url']
     except:
         images = 'No images found'
@@ -186,17 +189,39 @@ def get_product_info(product):
     return description, size, imgurl, brand, category, productId, price, promo_price
 
 
-# def get_location(token):
+def add_to_sql(description, size, imgurl, brand, category, productId, price, promo_price, current_time):
+    with sqlite3.connect("kroger.db") as db: 
+        cursor = db.cursor()
+        cursor.execute('''
+        CREATE TABLE IF NOT EXISTS allitems (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            description MEDIUMTEXT,
+            size MEDIUMTEXT,
+            brand MEDIUMTEXT,
+            category MEDIUMTEXT,
+            image MEDIUMTEXT,
+            productId MEDIUMTEXT,
+            price REAL,
+            promoprice REAL,
+            datetime TIMESTAMP)
+        ''')
+        cursor.execute('INSERT INTO allitems (description, size, brand, category, image, productId, price, promoprice, datetime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [description, size, brand, str(category), imgurl, productId, price, promo_price, current_time])            
+#          # Commit your changes in the database
+        db.commit()
+    
+
+
+# def get_location(token, zip_code):
 #     # Takes the upc of the scanned product and the access token in order to run the GET request
 #     headers = {
 #         'Content-Type': 'application/json',
 #         'Authorization': f'Bearer {token}',
 #     }
-#     product = requests.get(f"https://api.kroger.com/v1/locations?filter.zipCode.near=30813", headers=headers)
+#     product = requests.get(f"https://api.kroger.com/v1/locations?filter.zipCode.near={zip_code}", headers=headers)
 #     json = product.json()
 #     # Returns the JSON for the product information which is broken out by the get_product_info function
 #     return json
 
-# data = get_location(token)
-
+# zip_code = "#####"
+# data = get_location(token, zip_code)
 # print(data)

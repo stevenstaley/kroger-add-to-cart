@@ -2,7 +2,7 @@ import datetime
 import os
 import base64
 import requests
-from functions import get_product, add_items_to_cart, refresh_auth_token, get_product_info, get_customer_access_token, get_customer_authorization_code
+from functions import get_product, add_items_to_cart, refresh_auth_token, get_product_info, get_customer_access_token, get_customer_authorization_code, add_to_sql
 
 # Stores the "Client ID", "Client Secret", "Customer Username", "Customer Password", and "Redirect URI" as environmental variables for obscurity
 
@@ -50,12 +50,13 @@ while True:
             status = add_items_to_cart(token, items)
             # Returns the product JSON
             product = get_product(upc, token)
-            print(product)
+            # print(product)
             # Obtains the description, size, and image URL of the product
             description, size, imgurl, brand, category, productId, price, promo_price = get_product_info(product)
+            add_to_sql(description, size, imgurl, brand, category, productId, price, promo_price, current_time)
             # Standard message for adding something to the cart
             message = f"{description}, {size}, {brand}, {category}, {productId}, {price}, {promo_price}" + " has been added to your cart"
-            
+
             print(message)
            
             break
@@ -68,14 +69,15 @@ while True:
            
         elif status == 204:
             # Success
-            try:
-                product = get_product(upc, token)
-                print(product)
-                description, size, imgurl, brand, category, productId, price, promo_price = get_product_info(product)
-                message = f"{description}, {size}, {brand}, {category}, {productId}, {price}, {promo_price}" + " has been added to your cart"
-                print(f'{message}')
-            except:
-                print("Try again")
+            # try:
+            product = get_product(upc, token)
+            # print(product)
+            description, size, imgurl, brand, category, productId, price, promo_price = get_product_info(product)
+            add_to_sql(description, size, imgurl, brand, category, productId, price, promo_price, current_time)
+            message = f"{description}, {size}, {brand}, {category}, {productId}, {price}, {promo_price}" + " has been added to your cart"
+            print(message)
+            # except:
+                # print("Try again")
             break
 
 
