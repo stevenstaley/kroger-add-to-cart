@@ -160,6 +160,14 @@ def get_product_info(product):
         size = newest['items'][0]['size']
     except:
         size = "No Size Found"
+    try:
+        price = newest['items'][0]['price']['regular']
+    except:
+        price = "No price found"
+    try:
+        promo_price = newest['items'][0]['price']['promo']
+    except:
+        promo_price = 0
     # Locates the images asssociated with the product
     try:
         images = newest['images']
@@ -173,7 +181,8 @@ def get_product_info(product):
                         imgurl = i['url']
     except:
         images = 'No images found'
-    return description, size, imgurl, brand, category, productId
+
+    return description, size, imgurl, brand, category, productId, price, promo_price
 
 
 # def get_location(token):

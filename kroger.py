@@ -52,9 +52,9 @@ while True:
             product = get_product(upc, token)
             print(product)
             # Obtains the description, size, and image URL of the product
-            description, size, imgurl, brand, category, productId = get_product_info(product)
+            description, size, imgurl, brand, category, productId, price, promo_price = get_product_info(product)
             # Standard message for adding something to the cart
-            message = f"{description}, {size}, {brand}, {category}, {productId}" + " has been added to your cart"
+            message = f"{description}, {size}, {brand}, {category}, {productId}, {price}, {promo_price}" + " has been added to your cart"
             print(message)
            
             break
@@ -70,8 +70,8 @@ while True:
             try:
                 product = get_product(upc, token)
                 print(product)
-                description, size, imgurl, brand, category, productId = get_product_info(product)
-                message = f"{description}, {size}, {brand}, {category}, {productId}" + " has been added to your cart"
+                description, size, imgurl, brand, category, productId, price, promo_price = get_product_info(product)
+                message = f"{description}, {size}, {brand}, {category}, {productId}, {price}, {promo_price}" + " has been added to your cart"
                 print(f'{message}')
             except:
                 print("Try again")
