@@ -55,6 +55,7 @@ while True:
             description, size, imgurl, brand, category, productId, price, promo_price = get_product_info(product)
             # Standard message for adding something to the cart
             message = f"{description}, {size}, {brand}, {category}, {productId}, {price}, {promo_price}" + " has been added to your cart"
+            
             print(message)
            
             break

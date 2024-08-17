@@ -120,6 +120,7 @@ def get_product(upc, token):
     search = {
         "productId": upc,
         "upc": upc,
+        # In order to get prices, you have to include the filter.locationId parameter in the request. 
         "filter.locationId": "01100644"
     }
     headers = {
