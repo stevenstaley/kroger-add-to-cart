@@ -212,7 +212,7 @@ def add_to_sql(description, size, imgurl, brand, category, productId, price_regu
             promoprice REAL,
             datetime TIMESTAMP)
         ''')
-        cursor.execute('INSERT INTO allitems (description, size, brand, category, image, productId, price, promoprice, datetime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [description, size, brand, str(category), imgurl, productId, price, promo_price, current_time])            
+        cursor.execute('INSERT INTO allitems (description, size, brand, category, image, productId, price, promoprice, datetime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [description, size, brand, str(category), imgurl, productId, price_regular, price_promo, current_time])            
 #          # Commit your changes in the database
         db.commit()
     
