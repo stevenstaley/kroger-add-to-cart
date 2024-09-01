@@ -3,7 +3,10 @@ import os
 import base64
 import requests
 from functions import get_product, add_items_to_cart, refresh_auth_token, get_product_info, get_customer_access_token, get_customer_authorization_code, add_to_sql
+import streamlit as st
 
+# Create the SQL connection to pets_db as specified in your secrets file.
+conn = st.connection('kroger_db', type='sql')
 # Stores the "Client ID", "Client Secret", "Customer Username", "Customer Password", and "Redirect URI" as environmental variables for obscurity
 
 client_id = os.environ.get('CLIENT_ID')
@@ -31,6 +34,8 @@ while True:
         "upc": upc,
         "quantity": 1          
     }
+    df = conn.query('select * from allitems')
+    st.dataframe(df)
     while True:
         status = add_items_to_cart(token, items)
         # Submits the PUT request to add the UPC to the cart
