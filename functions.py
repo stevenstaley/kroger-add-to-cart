@@ -185,11 +185,18 @@ def get_product_info(product):
                         imgurl = i['url']
     except:
         images = 'No images found'
+    try:
+        price_regular = newest['items'][0]['price']['regular']
+    except:
+        price_regular = 0
+    try:
+        price_promo = newest['items'][0]['price']['promo']
+    except:
+        price_promo = 0
+    return description, size, imgurl, brand, category, productId, price_regular, price_promo
 
-    return description, size, imgurl, brand, category, productId, price, promo_price
 
-
-def add_to_sql(description, size, imgurl, brand, category, productId, price, promo_price, current_time):
+def add_to_sql(description, size, imgurl, brand, category, productId, price_regular, price_promo, current_time):
     with sqlite3.connect("kroger.db") as db: 
         cursor = db.cursor()
         cursor.execute('''

@@ -52,10 +52,10 @@ while True:
             product = get_product(upc, token)
             # print(product)
             # Obtains the description, size, and image URL of the product
-            description, size, imgurl, brand, category, productId, price, promo_price = get_product_info(product)
-            add_to_sql(description, size, imgurl, brand, category, productId, price, promo_price, current_time)
+            description, size, imgurl, brand, category, productId, price_regular, price_promo = get_product_info(product)
+            add_to_sql(description, size, imgurl, brand, category, productId, price_regular, price_promo, current_time)
             # Standard message for adding something to the cart
-            message = f"{description}, {size}, {brand}, {category}, {productId}, {price}, {promo_price}" + " has been added to your cart"
+            message = f"{description}, {size}, {brand}, {category}, {productId}, {price_regular}, {price_promo}" + " has been added to your cart"
 
             print(message)
            
@@ -72,9 +72,10 @@ while True:
             # try:
             product = get_product(upc, token)
             # print(product)
-            description, size, imgurl, brand, category, productId, price, promo_price = get_product_info(product)
-            add_to_sql(description, size, imgurl, brand, category, productId, price, promo_price, current_time)
-            message = f"{description}, {size}, {brand}, {category}, {productId}, {price}, {promo_price}" + " has been added to your cart"
+            description, size, imgurl, brand, category, productId, price_regular, price_promo = get_product_info(product)
+            add_to_sql(description, size, imgurl, brand, category, productId, price_regular, price_promo, current_time)
+            # Standard message for adding something to the cart
+            message = f"{description}, {size}, {brand}, {category}, {productId}, {price_regular}, {price_promo}" + " has been added to your cart"
             print(message)
             # except:
                 # print("Try again")
