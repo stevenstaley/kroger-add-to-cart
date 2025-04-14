@@ -1,0 +1,44 @@
+
+CREATE DATABASE product_db;
+
+-- Use the newly created database
+USE product_db;
+
+-- Create the products table with an auto-incrementing primary key and dateChecked column
+CREATE TABLE products (
+    id INT AUTO_INCREMENT PRIMARY KEY,  -- Auto-incrementing primary key
+    productId VARCHAR(13),
+    upc VARCHAR(13),
+    productPageURI VARCHAR(255),
+    aisleBayNumber VARCHAR(10),
+    aisleDescription VARCHAR(255),
+    aisleNumber VARCHAR(10),
+    aisleNumberOfFacings INT,
+    aisleSide CHAR(1),
+    aisleShelfNumber INT,
+    aisleShelfPositionInBay INT,
+    brand VARCHAR(255),
+    categories VARCHAR(255),  -- Store as a comma-separated list
+    countryOrigin VARCHAR(255),
+    description TEXT,
+    imageRightURL VARCHAR(255),  -- URL for right perspective
+    imageBackURL VARCHAR(255),    -- URL for back perspective
+    imageFrontURL VARCHAR(255),   -- URL for front perspective
+    imageLeftURL VARCHAR(255),    -- URL for left perspective
+    inventoryStockLevel ENUM('HIGH', 'MEDIUM', 'LOW'),
+    favorite BOOLEAN DEFAULT FALSE,
+    fulfillmentCurbside BOOLEAN DEFAULT FALSE,
+    fulfillmentDelivery BOOLEAN DEFAULT FALSE,
+    fulfillmentInStore BOOLEAN DEFAULT FALSE,
+    fulfillmentShipToHome BOOLEAN DEFAULT FALSE,
+    priceRegular DECIMAL(10, 2),
+    pricePromo DECIMAL(10, 2),
+    size VARCHAR(50),
+    soldBy VARCHAR(50),
+    itemDepth DECIMAL(10, 2),
+    itemHeight DECIMAL(10, 2),
+    itemWidth DECIMAL(10, 2),
+    temperatureIndicator VARCHAR(50),
+    temperatureHeatSensitive BOOLEAN DEFAULT FALSE,
+    dateChecked DATETIME DEFAULT CURRENT_TIMESTAMP  -- Date checked
+);
