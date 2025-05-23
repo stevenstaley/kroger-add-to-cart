@@ -3,6 +3,8 @@ import os
 import base64
 import requests
 from functions import get_product, add_items_to_cart, refresh_auth_token, get_product_info, get_customer_access_token, get_customer_authorization_code, add_to_sql
+import keyboard
+import time
 import streamlit as st
 
 # Create the SQL connection to pets_db as specified in your secrets file.
@@ -25,6 +27,23 @@ customer_auth_code = get_customer_authorization_code(client_id, redirect_uri, sc
 token, refresh_token = get_customer_access_token(customer_auth_code, encoded_client_token, redirect_uri)
 
 
+
+time.sleep(2)
+st.text_input("Waiting for UPC")
+left, right = st.columns(2)
+def initialize():
+    keyboard.press_and_release('F11')
+    st.session_state['initialized'] = True
+
+
+if "initialized" not in st.session_state:
+    initialize()
+
+
+if left.button("Price Check", use_container_width=True):
+    left.markdown("You clicked the plain button.")
+if right.button("Add to Cart", use_container_width=True):
+    right.markdown("You clicked the Material button.")
 
 while True:
     # Waits for user input from the UPC scanner
