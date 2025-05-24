@@ -10,10 +10,10 @@ current_time = datetime.datetime.now()
 time.sleep(2)
 def initialize():
     # keyboard.press_and_release('F11')
-    client_id = "rpiapp-bbc5j0mm"
-    client_secret = "sdLavIh4toNxRH0Z3H7SaQ40LT43QzuPLkR2ELy8"
-    customer_username = "kelly.anne.staley@gmail.com"
-    customer_password = "Harfoll1"
+    client_id = ""
+    client_secret = ""
+    customer_username = ""
+    customer_password = ""
     redirect_uri = "http://localhost:3000"
     # Defines scopes based on application registration at the Kroger Developers website
     scopes = "cart.basic:write%20product.compact%20profile.compact"
