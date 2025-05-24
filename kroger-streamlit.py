@@ -1,5 +1,5 @@
 import streamlit as st
-import keyboard
+# import keyboard
 import time
 import datetime
 import os
@@ -9,7 +9,7 @@ from functions import get_product, add_items_to_cart, refresh_auth_token, get_pr
 current_time = datetime.datetime.now()
 time.sleep(2)
 def initialize():
-    keyboard.press_and_release('F11')
+    # keyboard.press_and_release('F11')
     client_id = "rpiapp-bbc5j0mm"
     client_secret = "sdLavIh4toNxRH0Z3H7SaQ40LT43QzuPLkR2ELy8"
     customer_username = "kelly.anne.staley@gmail.com"
