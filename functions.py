@@ -16,9 +16,9 @@ current_time = datetime.datetime.now()
 ############################################################
 def get_customer_authorization_code(client_id, redirect_uri, scopes, customer_username, customer_password):
     # Uses Selenium to open the browser to the authentication URL 
-    service = Service(executable_path=r"C:\Users\kelly\Downloads\Python\Kroger\kroger-add-to-cart\chromedriver.exe")
+    service = Service(executable_path=r"C:\Users\stale\Desktop\Python\chromedriver.exe")
     chrome_options = Options()  
-    chrome_options.add_argument("--headless")
+    # chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-web-security")
     chrome_options.add_argument("--incognito")
     chrome_options.add_argument("--allow-running-insecure-content")
@@ -32,11 +32,12 @@ def get_customer_authorization_code(client_id, redirect_uri, scopes, customer_us
     driver = webdriver.Chrome(service=service, options=chrome_options)
     AUTH_URL = f"https://api.kroger.com/v1/connect/oauth2/authorize?client_id={client_id}&response_type=code&redirect_uri={redirect_uri}&scope={scopes}"
     url = AUTH_URL.format(client_id=client_id, redirect_uri=redirect_uri, scopes=scopes)
+    print(url)
     # Go to the authorization url, enter username and password and submit
     driver.get(url)
     time.sleep(1)
     # Find the username input
-    username = driver.find_element(By.ID, 'username')
+    username = driver.find_element(By.ID, 'signInName')
     # Inputs customer username
     username.send_keys(customer_username)
     time.sleep(1)
@@ -46,10 +47,11 @@ def get_customer_authorization_code(client_id, redirect_uri, scopes, customer_us
     password.send_keys(customer_password)
     time.sleep(1)
     # Finds the sign in button
-    button = driver.find_element(By.ID, 'signin_button')
+    button = driver.find_element(By.ID, 'continue')
     time.sleep(1)
     # Submits the authorization with the username and password
     button.click()
+    
     # If that specific customer has already authorized, it will skip this try loop
     try:
         auth_button = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID, "authorize")))
@@ -57,8 +59,9 @@ def get_customer_authorization_code(client_id, redirect_uri, scopes, customer_us
             auth_button.click()
     except:
         pass
-    time.sleep(2)
+    WebDriverWait(driver, 15).until(EC.url_contains("code="))
     uri = driver.current_url
+    # print("URI: " + uri)
     # Returns string after '{redirect_uri}/code=' which is the customer_auth_code required to get an access token
     return uri.split("code=")[1]
 
