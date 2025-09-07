@@ -1,4 +1,4 @@
-def get_customer_access_token(customer_auth_code, encoded_client_token, redirect_uri):
+def get_customer_access_token(scopes, client_id, redirect_uri):
     url = 'https://api.kroger.com/v1/connect/oauth2/authorize'
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
