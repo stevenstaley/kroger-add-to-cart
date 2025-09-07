@@ -1,5 +1,5 @@
 def get_customer_access_token(customer_auth_code, encoded_client_token, redirect_uri):
-    url = 'https://api.kroger.com/v1/connect/oauth2/token'
+    url = 'https://api.kroger.com/v1/connect/oauth2/authorize'
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': f'Basic {encoded_client_token}',
